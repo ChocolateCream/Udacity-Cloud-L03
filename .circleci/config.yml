@@ -5,22 +5,55 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+    say-hello:
+        # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+        # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
+        docker:
+            - image: cimg/base:stable
+        # Add steps to the job
+        # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+        steps:
+            - checkout
+            - run:
+                  name: "Say hello"
+                  command: "echo Hello, World!"
+
+    ## adding another job
+    print_hello:
+        ## specify the docker image
+        docker:
+            - image: circleci/node:13.8.0
+        ## adding steps to the job
+        steps:
+            - run:
+                  name: "Print Hello"
+                  command: "echo Hello"
+
+    ## adding another job
+    print_world:
+        ## specify the docker image
+        docker:
+            - image: circleci/node:13.8.0
+        ## adding steps to the job
+        steps:
+            - run:
+                  name: "Print World"
+                  command: "echo world"
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
-    jobs:
-      - say-hello
+    # say-hello-workflow:
+    #     jobs:
+    #         - say-hello
+
+    ## the name of the workflow
+    print_hellow_world:
+        ## listing the jobs within the  workflow
+        jobs:
+            ## The first job
+            - prit_hello
+            ## The second job with using the `requires` key to make it wait for the `print_hello` to be excuted
+            - print_world:
+                requires:
+                  - print_hello
