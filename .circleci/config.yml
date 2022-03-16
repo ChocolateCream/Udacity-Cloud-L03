@@ -43,12 +43,12 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-    # say-hello-workflow:
-    #     jobs:
-    #         - say-hello
+    say-hello-workflow:
+        jobs:
+            - say-hello
 
     ## the name of the workflow
-    print_hellow_world:
+    print_hello_world:
         ## listing the jobs within the  workflow
         jobs:
             ## The first job
