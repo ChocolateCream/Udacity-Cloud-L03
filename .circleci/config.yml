@@ -79,6 +79,23 @@ jobs:
             - get_pipeline_id:
                 id: << pipeline.id >>
 
+    ## adding another job
+    failure_job:
+        ## specify the docker image using the Anchors and Aliases
+        <<: *default_img
+        ## adding steps to the job
+        steps:
+            - run: echo "This is the first step of the failure job"
+            - run: echo "And this is the second step"
+            - run: echo "This job will run in parallel with the other jobs"
+            - run: echo "The pipeline id is << pipeline.id >>"
+            - run: exit 5
+            - run:
+                name: Run on Failure
+                command: echo "A job has failed and this step was run for this reason"
+                when: on_fail
+
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
