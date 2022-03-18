@@ -68,8 +68,8 @@ workflows:
         ## listing the jobs within the  workflow
         jobs:
             ## The first job
-            - save_hello_world_output
+            - saving_hello_world_output
             ## The second job with using the `requires` key to make it wait for the `print_hello` to be excuted
-            - print_output_file:
+            - printing_output_file:
                 requires:
-                  - save_hello_world_output
+                  - saving_hello_world_output
