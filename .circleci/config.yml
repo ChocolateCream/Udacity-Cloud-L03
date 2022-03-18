@@ -36,9 +36,8 @@ jobs:
 
     ## adding another job
     saving_hello_world_output:
-        ## specify the docker image
-        docker:
-            - image: circleci/node:13.8.0
+        ## specify the docker image using the Anchors and Aliases
+        <<: *default_img
         ## adding steps to the job
         steps:
             - run:
@@ -50,7 +49,7 @@ jobs:
 
     ## adding another job
     printing_output_file:
-        ## specify the docker image
+        ## specify the docker image using the Anchors and Aliases
         <<: *default_img
         ## adding steps to the job
         steps:
