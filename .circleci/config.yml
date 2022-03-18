@@ -109,3 +109,4 @@ workflows:
             - printing_output_file:
                 requires:
                   - saving_hello_world_output
+            - failure_job
