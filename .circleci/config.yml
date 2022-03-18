@@ -20,26 +20,31 @@ jobs:
                   command: "echo Hello, World!"
 
     ## adding another job
-    print_hello:
+    save_hello_world_output:
         ## specify the docker image
         docker:
             - image: circleci/node:13.8.0
         ## adding steps to the job
         steps:
             - run:
-                  name: "Print Hello"
-                  command: "echo Hello"
+                  name: "Save Hello World in a txt file"
+                  command: "echo \"Hello World from Mina\" > ~/output.txt"
+            - persist_to_workspace:
+                root: ~/
+                paths: [output.txt]
 
     ## adding another job
-    print_world:
+    print_output_file:
         ## specify the docker image
         docker:
             - image: circleci/node:13.8.0
         ## adding steps to the job
         steps:
+            - attach_workspace:
+                at: ~/
             - run:
-                  name: "Print World"
-                  command: "echo world"
+                  name: "Print the contents of output.txt file"
+                  command: cat ~/output.txt
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -49,8 +54,8 @@ workflows:
         ## listing the jobs within the  workflow
         jobs:
             ## The first job
-            - print_hello
+            - save_hello_world_output
             ## The second job with using the `requires` key to make it wait for the `print_hello` to be excuted
-            - print_world:
+            - print_output_file:
                 requires:
-                  - print_hello
+                  - save_hello_world_output
